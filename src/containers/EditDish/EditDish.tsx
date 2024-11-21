@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchOneDish, updateDishInfo } from '../../components/Dishes/dishesThunk.ts';
 import { CircularProgress } from '@mui/material';
-import { dishForm } from '../../types.ts';
+import { IDishForm } from '../../types.ts';
 
 const EditDish = () => {
 
@@ -28,7 +28,7 @@ const EditDish = () => {
   }, [dispatch, getOneDish]);
 
 
-  const updateDish = async(dish:dishForm)=>{
+  const updateDish = async(dish:IDishForm)=>{
     await dispatch(updateDishInfo({dish:dish,  dishId: id}))
   }
 

@@ -1,14 +1,15 @@
 import { Box, Button, Grid2 } from '@mui/material';
-import { dishState } from '../../types.ts';
+import { IDishState } from '../../types.ts';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { deleteDishById } from './dishesThunk.ts';
 import { deleteDishReducer } from './dishesSlice.ts';
 import { NavLink, useLocation } from 'react-router-dom';
+import { addDishToCart } from '../Cart/cartSlice.ts';
 
 interface Props{
-  dish:dishState
+  dish:IDishState
 }
 
 const DishComponent:React.FC<Props> = ({dish}) => {
@@ -20,8 +21,10 @@ const DishComponent:React.FC<Props> = ({dish}) => {
     await dispatch(deleteDishById(dish));
   }
 
+
   return (
     <Grid2
+      onClick={()=> dispatch(addDishToCart(dish))}
       sx={{
         padding: '1rem',
         borderRadius: '20px',

@@ -12,7 +12,7 @@ const Header = () => {
           <Typography variant="h5" color="inherit" component="h5" sx={{textDecoration:"underline"}}>
             Turtle Pizza
           </Typography>
-          {pathname !== '/' ? <>
+          {(pathname !== '/' && pathname !== '/checkOut') ? <>
             <Button variant="contained"  color="inherit" sx={{marginLeft:"auto", marginRight:"20px"}} >
               <NavLink to="/admin">
                 <Typography variant="body2" color="black" component="div">

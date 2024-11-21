@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { dishForm, dishState } from '../../types.ts';
+import { IDishForm, IDishState } from '../../types.ts';
 import { fetchAllDishes, fetchOneDish, postOneDish } from './dishesThunk.ts';
 
 interface dishesSliceProps{
-  dishesAll:dishState[],
-  oneDish:dishForm | null,
+  dishesAll:IDishState[],
+  oneDish:IDishForm | null,
   postDishLoading:boolean,
   fetchLoading:boolean,
   deleteDish:{

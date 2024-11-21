@@ -1,13 +1,19 @@
-export interface dishForm{
+export interface IDishForm {
   title:string
-  price:string
+  price:number
   imageUrl:string
 }
 
-export interface dishFormApi{
-  [id:string]:dishForm
+export interface IDishFormApi {
+  [id:string]:IDishForm
 }
 
-export interface dishState extends dishForm{
+export interface IDishState extends IDishForm{
   id:string
+}
+
+
+export interface IDishCart{
+  dish:IDishState,
+  amount:number
 }

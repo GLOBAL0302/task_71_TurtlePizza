@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Grid2, TextField } from '@mui/material';
 import { useState } from 'react';
-import { dishForm } from '../../types.ts';
+import { IDishForm } from '../../types.ts';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { fetchAllDishes, postOneDish } from '../Dishes/dishesThunk.ts';
 import {selectPostLoading } from '../Dishes/dishesSlice.ts';
@@ -8,15 +8,15 @@ import { useNavigate } from 'react-router-dom';
 
 
 interface Props{
-  updateDish?:(dish:dishForm) => void;
-  oneDish?: dishForm
+  updateDish?:(dish:IDishForm) => void;
+  oneDish?: IDishForm
   isEdit?: boolean
 }
 
 
-const initialState:dishForm = {
+const initialState:IDishForm = {
   title:"",
-  price:"",
+  price:0,
   imageUrl:""
 }
 

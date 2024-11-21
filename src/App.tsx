@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 import HomeContainer from './containers/Home/HomeContainer.tsx';
 import AddNewDish from './containers/addNewDish/AddNewDish.tsx';
 import EditDish from './containers/EditDish/EditDish.tsx';
+import CheckOut from './containers/CheckOut/CheckOut.tsx';
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/admin/addNewDish" element={<AddNewDish/>}/>
           <Route path="/admin/editDish/:id" element={<EditDish/>}/>
           <Route path="/" element={<HomeContainer/>}/>
+          <Route path="/checkOut" element={<CheckOut/>}/>
           <Route path="*" element={<h2>Such Page does not Exist</h2>}/>
         </Routes>
       </Container>

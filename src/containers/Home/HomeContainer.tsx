@@ -1,9 +1,9 @@
 import Dishes from '../../components/Dishes/Dishes.tsx';
 import { Button, Grid2, Typography } from '@mui/material';
 import { NavLink, useLocation } from 'react-router-dom';
+import Cart from '../../components/Cart/Cart.tsx';
 
 const HomeContainer = () => {
-
   const {pathname} = useLocation();
 
   return (
@@ -26,6 +26,7 @@ const HomeContainer = () => {
           </Grid2></> : ""}
       </Grid2>
       <Dishes/>
+      {pathname ==="/" && <Cart/>}
     </>
   );
 };

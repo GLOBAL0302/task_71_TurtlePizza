@@ -13,7 +13,9 @@ const App = () => {
       <Container>
         <Routes>
           <Route path="/admin" element={<Dishes/>}/>
+          <Route path="/admin/:id" element={<Dishes/>}/>
           <Route path="/" element={<Dishes/>}/>
+          <Route path="*" element={<h2>Such Page does not Exist</h2>}/>
         </Routes>
       </Container>
     </>

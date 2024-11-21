@@ -1,15 +1,25 @@
 import { Box, Button, Grid2, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ModalWindow from '../../components/ModalWindow/ModalWindow.tsx';
-import DishForm from '../../components/DishForm/DishForm.tsx';
-import { dishState } from '../../types.ts';
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
+import { selectAllDishes } from './dishesSlice.ts';
+import { fetchAllDishes } from './dishesThunk.ts';
+import DishComponent from '../../components/DishComponent/DishComponent.tsx';
 
 const Dishes = () => {
   const {pathname} = useLocation();
+  const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
+  const dishesAll = useAppSelector(selectAllDishes);
 
-  const [dishesAll, setDishesAll] = useState<dishState[]>();
+  const fetchDishes = useCallback(async () => {
+    await dispatch(fetchAllDishes());
+  }, [])
+
+  useEffect(() => {
+    void fetchDishes()
+  }, []);
 
   const handleModal = () => setModal((prev) => !prev);
 
@@ -30,9 +40,12 @@ const Dishes = () => {
             </Button>
           </Grid2></> : ""}
       </Grid2>
-      <ModalWindow modalOpen={modal} onChangeModal={handleModal}>
-        <DishForm/>
-      </ModalWindow>
+      <ModalWindow modalOpen={modal} onChangeModal={handleModal}/>
+      <Grid2 marginTop={3} container spacing={2}>
+        {dishesAll.map((dish) => (
+          <DishComponent key={dish.id} dish={dish}/>
+        ))}
+      </Grid2>
     </Box>
   );
 };

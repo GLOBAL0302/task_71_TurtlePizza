@@ -2,9 +2,13 @@ import { Box, Button, CircularProgress, Grid2, TextField } from '@mui/material';
 import { useState } from 'react';
 import { dishForm } from '../../types.ts';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { postOneDish } from '../../containers/Dishes/dishesThunk.ts';
+import { fetchAllDishes, postOneDish } from '../../containers/Dishes/dishesThunk.ts';
 import { selectPostLoading } from '../../containers/Dishes/dishesSlice.ts';
 
+
+interface Props{
+  onChangeModal:VoidFunction
+}
 
 const initialState:dishForm = {
   title:"",
@@ -13,7 +17,7 @@ const initialState:dishForm = {
 }
 
 
-const DishForm = () => {
+const DishForm:React.FC<Props> = ({onChangeModal}) => {
   const [dishInfo, setDishInfo] = useState(initialState);
   const dispatch = useAppDispatch();
   const postDish = useAppSelector(selectPostLoading)
@@ -28,6 +32,8 @@ const DishForm = () => {
   const onSubmit = async (event:React.FormEvent)=>{
     event.preventDefault();
     await dispatch(postOneDish(dishInfo));
+    await dispatch(fetchAllDishes());
+    onChangeModal();
   }
 
   return (

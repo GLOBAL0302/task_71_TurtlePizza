@@ -1,5 +1,6 @@
 import { Box, Modal } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import DishForm from '../DishForm/DishForm.tsx';
+import { useParams } from 'react-router-dom';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -12,14 +13,16 @@ const style = {
   p: 4,
 };
 
-interface Props extends PropsWithChildren {
+interface Props {
   modalOpen: boolean;
-  children: React.ReactNode;
   onChangeModal:VoidFunction
 }
 
 
-const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal, children}) => {
+const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal}) => {
+  const {id} = useParams();
+  console.log(id);
+
   return (
     <div>
       <Modal
@@ -29,7 +32,7 @@ const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal, children}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {children}
+          <DishForm onChangeModal={onChangeModal}/>
         </Box>
       </Modal>
     </div>

@@ -1,17 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { dishState } from '../../types.ts';
-import { fetchAllDishes, postOneDish } from './dishesThunk.ts';
+import { dishForm, dishState } from '../../types.ts';
+import { fetchAllDishes, fetchOneDish, postOneDish } from './dishesThunk.ts';
 
 interface dishesSliceProps{
   dishesAll:dishState[],
-  postDish:boolean,
-  fetchLoading:boolean
+  oneDish:dishForm | null,
+  postDishLoading:boolean,
+  fetchLoading:boolean,
+  deleteDish:{
+    loading:boolean,
+    dishId:string
+  }
 }
 
 const initialState:dishesSliceProps={
   dishesAll:[],
-  postDish:false,
-  fetchLoading:false
+  oneDish:null,
+  postDishLoading:false,
+  fetchLoading:false,
+  deleteDish:{
+    loading:false,
+    dishId:''
+  }
 }
 
 export const dishesSlice = createSlice({
@@ -20,18 +30,19 @@ export const dishesSlice = createSlice({
   reducers:{
     deleteDishReducer:(state, {payload})=>{
       state.dishesAll = state.dishesAll.filter(dish => dish.id !== payload.id);
-    }
+    },
+
   },
   extraReducers:(builder)=>{
     builder
       .addCase(postOneDish.pending, state=>{
-        state.postDish = true;
+        state.postDishLoading = true;
       })
       .addCase(postOneDish.fulfilled, state=>{
-        state.postDish = false;
+        state.postDishLoading = false;
       })
       .addCase(postOneDish.rejected, state=>{
-        state.postDish = false;
+        state.postDishLoading = false;
       })
 
     builder
@@ -45,13 +56,28 @@ export const dishesSlice = createSlice({
       .addCase(fetchAllDishes.rejected, state=>{
         state.fetchLoading = false;
       })
+
+    builder
+      .addCase(fetchOneDish.pending, state=>{
+        state.fetchLoading = true;
+      })
+      .addCase(fetchOneDish.fulfilled, (state,{payload})=>{
+        state.fetchLoading = false;
+        state.oneDish = payload;
+      })
+      .addCase(fetchOneDish.rejected, state=>{
+        state.fetchLoading = false;
+      })
   },
+
   selectors:{
-    selectPostLoading: (state)=> state.postDish,
+    selectPostLoading: (state)=> state.postDishLoading,
     selectAllDishes: (state)=> state.dishesAll,
+    selectOneDish: (state)=> state.oneDish,
+    selectFetchLoading: (state)=> state.fetchLoading,
   }
 });
 
 export const dishesReducer = dishesSlice.reducer;
 export const {deleteDishReducer} = dishesSlice.actions;
-export const {selectPostLoading, selectAllDishes} = dishesSlice.selectors;
+export const {selectPostLoading, selectAllDishes, selectFetchLoading,selectOneDish} = dishesSlice.selectors;

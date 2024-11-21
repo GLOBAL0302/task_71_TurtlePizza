@@ -3,10 +3,9 @@ import { dishState } from '../../types.ts';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from '../../app/hooks.ts';
-import { deleteDishById } from '../../containers/Dishes/dishesThunk.ts';
-import { deleteDishReducer } from '../../containers/Dishes/dishesSlice.ts';
-import { NavLink } from 'react-router-dom';
-import ModalWindow from '../ModalWindow/ModalWindow.tsx';
+import { deleteDishById } from './dishesThunk.ts';
+import { deleteDishReducer } from './dishesSlice.ts';
+import { NavLink, useLocation } from 'react-router-dom';
 
 interface Props{
   dish:dishState
@@ -14,16 +13,12 @@ interface Props{
 
 const DishComponent:React.FC<Props> = ({dish}) => {
   const dispatch = useAppDispatch();
+  const {pathname} = useLocation();
 
   const onClickDelete = async()=>{
     dispatch(deleteDishReducer(dish));
     await dispatch(deleteDishById(dish));
   }
-
-  const onClickEdit = ()=>{
-
-  }
-
 
   return (
     <Grid2
@@ -42,15 +37,17 @@ const DishComponent:React.FC<Props> = ({dish}) => {
           {dish.price} KGS
         </strong>
       </Grid2>
-      <Box margin="auto">
-        <NavLink to={`/admin/${dish.id}`}>
-        <Button variant='outlined' color={"primary"} sx={{marginLeft:'auto', marginRight:"20px"}} startIcon={<EditIcon/>}>
-          Edit
-        </Button>
-        </NavLink>
-      </Box>
-      <Button onClick={onClickDelete} variant='outlined' color={"error"} startIcon={<DeleteOutlineIcon/>}>delete</Button>
-      {/*<ModalWindow modalOpen={modal} onChangeModal={onClickEdit}></ModalWindow>*/}
+      {pathname !== "/" ? <>
+        <Box margin="auto">
+          <NavLink to={`/admin/editDish/${dish.id}`}>
+            <Button
+              variant='outlined' color={"primary"} sx={{marginLeft:'auto', marginRight:"20px"}} startIcon={<EditIcon/>}>
+              Edit
+            </Button>
+          </NavLink>
+        </Box>
+        <Button onClick={onClickDelete} variant='outlined' color={"error"} startIcon={<DeleteOutlineIcon/>}>delete</Button>
+      </>: ""}
     </Grid2>
   );
 };

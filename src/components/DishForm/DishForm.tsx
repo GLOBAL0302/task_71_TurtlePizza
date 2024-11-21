@@ -2,25 +2,30 @@ import { Box, Button, CircularProgress, Grid2, TextField } from '@mui/material';
 import { useState } from 'react';
 import { dishForm } from '../../types.ts';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { fetchAllDishes, postOneDish } from '../../containers/Dishes/dishesThunk.ts';
-import { selectPostLoading } from '../../containers/Dishes/dishesSlice.ts';
+import { fetchAllDishes, postOneDish } from '../Dishes/dishesThunk.ts';
+import {selectPostLoading } from '../Dishes/dishesSlice.ts';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Props{
-  onChangeModal:VoidFunction
+  updateDish?:(dish:dishForm) => void;
+  oneDish?: dishForm
+  isEdit?: boolean
 }
+
 
 const initialState:dishForm = {
   title:"",
-  price:0,
+  price:"",
   imageUrl:""
 }
 
 
-const DishForm:React.FC<Props> = ({onChangeModal}) => {
-  const [dishInfo, setDishInfo] = useState(initialState);
+const DishForm:React.FC<Props> = ({oneDish = initialState,updateDish, isEdit= false}) => {
+  const [dishInfo, setDishInfo] = useState( oneDish )
   const dispatch = useAppDispatch();
-  const postDish = useAppSelector(selectPostLoading)
+  const postDishLoader = useAppSelector(selectPostLoading)
+  const navigate = useNavigate();
 
   const handleDishInfo = (event:React.ChangeEvent<HTMLTextAreaElement>)=>{
     setDishInfo((prevState)=>({
@@ -31,9 +36,13 @@ const DishForm:React.FC<Props> = ({onChangeModal}) => {
 
   const onSubmit = async (event:React.FormEvent)=>{
     event.preventDefault();
-    await dispatch(postOneDish(dishInfo));
+    if(isEdit && updateDish){
+      updateDish(dishInfo);
+    }else{
+      await dispatch(postOneDish(dishInfo));
+    }
     await dispatch(fetchAllDishes());
-    onChangeModal();
+    navigate("/admin")
   }
 
   return (
@@ -44,13 +53,13 @@ const DishForm:React.FC<Props> = ({onChangeModal}) => {
       {
         dishInfo.imageUrl  &&
         <Box component="div"  width="100%" textAlign='center'>
-          <img width={"60%"} src={`${dishInfo.imageUrl}`} alt="dishPic" />
+          <img width={"20%"} src={`${dishInfo.imageUrl}`} alt="dishPic" />
         </Box>
       }
       <br/>
-      <Button disabled={postDish} variant="contained" type="submit" color="success" sx={{marginLeft: "auto"}}>
-        Save
-        {postDish && <CircularProgress size={20} sx={{marginLeft:"10px"}}/>}
+      <Button disabled={postDishLoader} variant="contained" type="submit" color="success" sx={{marginLeft: "auto"}}>
+        <>{isEdit ? "Save Edit":"Submit Dish"}</>
+        {postDishLoader && <CircularProgress size={20} sx={{marginLeft:"10px"}}/>}
       </Button>
     </Grid2>
   );

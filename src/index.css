@@ -4,5 +4,8 @@
   font-weight: 400;
   color: black;
 }
-
+a{
+  color:inherit;
+  text-decoration: none;
+}
 

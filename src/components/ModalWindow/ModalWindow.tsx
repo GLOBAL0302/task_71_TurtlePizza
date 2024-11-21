@@ -1,6 +1,6 @@
 import { Box, Modal } from '@mui/material';
 import DishForm from '../DishForm/DishForm.tsx';
-import { useParams } from 'react-router-dom';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -18,10 +18,7 @@ interface Props {
   onChangeModal:VoidFunction
 }
 
-
 const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal}) => {
-  const {id} = useParams();
-  console.log(id);
 
   return (
     <div>
@@ -32,7 +29,7 @@ const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <DishForm onChangeModal={onChangeModal}/>
+          <DishForm/>
         </Box>
       </Modal>
     </div>

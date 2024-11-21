@@ -22,6 +22,14 @@ export const fetchAllDishes = createAsyncThunk<dishState[], void>(
   }
 );
 
+export const fetchOneDish = createAsyncThunk<dishForm, string>(
+  'dishes/fetchOneDish',
+  async(dishId)=>{
+    const {data} = await axiosApi.get(`dishes/${dishId}.json`);
+    return data
+  }
+)
+
 export const deleteDishById = createAsyncThunk<void, dishState>(
   "dishes/deleteDishById",
   async (dish)=>{
@@ -29,7 +37,7 @@ export const deleteDishById = createAsyncThunk<void, dishState>(
   }
 );
 
-export const updateDishInfo = createAsyncThunk<void, {dishId:string, dish:dishForm}>(
+export const updateDishInfo = createAsyncThunk<void, {dishId:string | undefined, dish:dishForm}>(
   "dishes/updateDishInfo",
   async({dishId, dish})=>{
     await axiosApi.put(`dishes/${dishId}.json`, dish)

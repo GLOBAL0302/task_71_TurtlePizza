@@ -15,11 +15,10 @@ const style = {
 
 interface Props {
   modalOpen: boolean;
-  onChangeModal:VoidFunction
+  onChangeModal: VoidFunction;
 }
 
-const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal}) => {
-
+const ModalWindow: React.FC<Props> = ({ modalOpen, onChangeModal }) => {
   return (
     <div>
       <Modal
@@ -29,7 +28,7 @@ const ModalWindow:React.FC<Props> = ({modalOpen, onChangeModal}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <DishForm/>
+          <DishForm />
         </Box>
       </Modal>
     </div>

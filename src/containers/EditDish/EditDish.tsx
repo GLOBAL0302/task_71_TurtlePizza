@@ -8,38 +8,33 @@ import { CircularProgress } from '@mui/material';
 import { IDishForm } from '../../types.ts';
 
 const EditDish = () => {
-
   const dispatch = useAppDispatch();
   const oneDish = useAppSelector(selectOneDish);
   const fetchLoading = useAppSelector(selectFetchLoading);
 
-  const {id}= useParams();
-
+  const { id } = useParams();
 
   const getOneDish = useCallback(async () => {
-    if(id){
+    if (id) {
       await dispatch(fetchOneDish(id));
     }
-  },[id]);
-
+  }, [id]);
 
   useEffect(() => {
     void getOneDish();
   }, [dispatch, getOneDish]);
 
-
-  const updateDish = async(dish:IDishForm)=>{
-    await dispatch(updateDishInfo({dish:dish,  dishId: id}))
-  }
+  const updateDish = async (dish: IDishForm) => {
+    await dispatch(updateDishInfo({ dish: dish, dishId: id }));
+  };
 
   return (
     <>
-      {
-        fetchLoading ? <CircularProgress/> :
-          <>
-        {oneDish && <DishForm oneDish={oneDish} updateDish={updateDish} isEdit/>}
-          </>
-      }
+      {fetchLoading ? (
+        <CircularProgress />
+      ) : (
+        <>{oneDish && <DishForm oneDish={oneDish} updateDish={updateDish} isEdit />}</>
+      )}
     </>
   );
 };

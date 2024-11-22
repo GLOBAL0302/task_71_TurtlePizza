@@ -37,11 +37,6 @@ const cartSlice = createSlice({
       state.cartDishes = state.cartDishes.filter(dish => dish.dish.id !== payload.id);
     }
 
-
-  },
-
-  extraReducers:(builder)=>{
-
   },
   selectors:{
     selectCartDishes : (state) =>state.cartDishes

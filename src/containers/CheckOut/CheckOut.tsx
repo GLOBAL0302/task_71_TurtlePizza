@@ -6,6 +6,7 @@ import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { postOrdersThunk } from '../../components/Cart/cartThunk.ts';
 
 const CheckOut = () => {
   const selectCartDish = useAppSelector(selectCartDishes);
@@ -17,6 +18,11 @@ const CheckOut = () => {
     dispatch(clearCart());
     navigate('/');
   };
+
+  const onClickOrder = async ()=>{
+    await dispatch(postOrdersThunk());
+    onClickCancel();
+  }
 
   const total = cartDishes.reduce((acc, cartDish) => {
     acc += cartDish.amount * cartDish.dish.price;
@@ -38,7 +44,9 @@ const CheckOut = () => {
           <Typography variant="h4" component="p" color="black">
             total: {total}
           </Typography>
-          <Button sx={{ marginLeft: 'auto' }} variant="contained" color="success" startIcon={<DeliveryDiningIcon />}>
+          <Button
+            onClick={onClickOrder}
+            sx={{ marginLeft: 'auto' }} variant="contained" color="success" startIcon={<DeliveryDiningIcon />}>
             Order
           </Button>
           <Button onClick={onClickCancel} variant="contained" color="warning" startIcon={<CancelIcon />}>

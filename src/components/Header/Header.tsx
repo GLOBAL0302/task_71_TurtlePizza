@@ -21,9 +21,11 @@ const Header = () => {
               </NavLink>
           </Button>
             <Button variant="contained"  color="inherit">
-              <Typography variant="body2" color="black" component="p">
-                Orders
-              </Typography>
+              <NavLink to="/orders">
+                <Typography variant="body2" color="black" component="p">
+                  Orders
+                </Typography>
+              </NavLink>
             </Button></> : ""}
         </Toolbar>
       </AppBar>
